@@ -1,0 +1,77 @@
+#
+# A couple of useful guides & docs:
+#
+# - Main Bitrise CLI docs: https://github.com/bitrise-io/bitrise/tree/master/_docs
+# - Step Development Guideline: https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+# - Bitrise.yml format spec: https://github.com/bitrise-io/bitrise/blob/master/_docs/bitrise-yml-format-spec.md
+# - Bitrise docs: http://devcenter.bitrise.io/
+# - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
+
+title: |-
+  Jira-Build
+summary: |
+  Mark jira tickets with build number
+description: |
+  Mark jira tickets with build number
+website: https://github.com/fredyshox/bitrise-step-jira-build
+source_code_url: https://github.com/fredyshox/bitrise-step-jira-build
+support_url: https://github.com/fredyshox/bitrise-step-jira-build/issues
+host_os_tags:
+  - osx-10.10
+  - ubuntu-16.04
+
+type_tags:
+  - notification
+
+is_requires_admin_user: true
+is_always_run: false
+is_skippable: true
+
+deps:
+  brew:
+  - name: git
+  - name: libgit2
+  apt_get:
+  - name: git
+  - name: libgit2-dev
+  go get -u:
+  - name: github.com/andygrunwald/go-jira
+
+toolkit:
+  go:
+    package_name: github.com/fredyshox/bitrise-step-jira-build
+
+
+inputs:
+  - APP_VERSION:
+    opts:
+      title: "App version (for example 1.0.0)"
+      is_required: true
+  - JIRA_HOST:
+    opts:
+      title: "JIRA host"
+      is_required: true
+  - JIRA_PROJECT_PREFIX:
+    opts:
+      title: "JIRA project name"
+      is_required: true
+  - JIRA_CUSTOM_FIELD_ID:
+    opts:
+      title: "JIRA custom field id for build number (integer)"
+      is_required: true
+  - JIRA_USERNAME:
+    opts:
+      title: "JIRA username"
+      is_required: true
+  - JIRA_ACCESS_TOKEN: 
+    opts:
+      title: "JIRA access token"
+      is_required: true
+      is_sensitive: true
+  - BITRISE_API_TOKEN:
+    opts: 
+      title: "Token for bitrise.io api"
+      is_required: true
+      is_sensitive: true
+
+outputs:
