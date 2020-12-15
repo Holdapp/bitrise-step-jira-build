@@ -2,12 +2,13 @@ package service
 
 import (
 	"fmt"
+	"log"
 	"regexp"
 
 	git "github.com/libgit2/git2go/v30"
 )
 
-const DefaultIssuePattern string = `\\[?([A-Z]{1,10}-[0-9]+)\\]?`
+const DefaultIssuePattern string = `([A-Z]{1,10}-[0-9]+)`
 
 type GitWorker struct {
 	Repo         *git.Repository
@@ -49,7 +50,6 @@ func Load(url string, branch string, remote string) *GitWorker {
 func (self *GitWorker) LoadCommits() []*git.Commit {
 	var commits = make([]*git.Commit, 0)
 	for _, oid := range self.MergeCommits {
-
 		rangeString := fmt.Sprintf("%s^..%s", oid.String(), oid.String())
 		fmt.Println(rangeString)
 		revwalk, err := self.Repo.Walk()
@@ -85,7 +85,7 @@ func (self *GitWorker) ScanIssues() []string {
 	issueKeysMap := make(map[string]bool)
 	regex, err := regexp.Compile(self.IssuePattern)
 	if err != nil {
-		return nil
+		log.Fatal(err)
 	}
 
 	for _, commit := range commits {
