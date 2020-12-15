@@ -48,10 +48,6 @@ inputs:
     opts:
       title: "JIRA host"
       is_required: true
-  - JIRA_PROJECT_PREFIX:
-    opts:
-      title: "JIRA project name"
-      is_required: true
   - JIRA_CUSTOM_FIELD_ID:
     opts:
       title: "JIRA custom field id for build number (integer)"

@@ -11,11 +11,10 @@ import (
 type JIRAWorker struct {
 	Auth          jira.BasicAuthTransport
 	Client        *jira.Client
-	Project       string
 	CustomFieldID int
 }
 
-func NewJIRAWorker(baseURL string, username string, password string, project string, customFieldID int) (*JIRAWorker, error) {
+func NewJIRAWorker(baseURL string, username string, password string, customFieldID int) (*JIRAWorker, error) {
 	auth := jira.BasicAuthTransport{
 		Username: username,
 		Password: password,
@@ -29,7 +28,6 @@ func NewJIRAWorker(baseURL string, username string, password string, project str
 	worker := JIRAWorker{
 		Auth:          auth,
 		Client:        client,
-		Project:       project,
 		CustomFieldID: customFieldID,
 	}
 
