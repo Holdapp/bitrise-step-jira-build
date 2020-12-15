@@ -1,0 +1,37 @@
+# github.com/andygrunwald/go-jira v1.13.0
+## explicit
+github.com/andygrunwald/go-jira
+# github.com/bitrise-io/go-steputils v0.0.0-20201016102104-03ae3a6ded35
+## explicit
+github.com/bitrise-io/go-steputils/stepconf
+# github.com/bitrise-io/go-utils v0.0.0-20201211082830-859032e9adf0
+## explicit
+github.com/bitrise-io/go-utils/colorstring
+github.com/bitrise-io/go-utils/parseutil
+github.com/bitrise-io/go-utils/pointers
+# github.com/dgrijalva/jwt-go v3.2.0+incompatible
+github.com/dgrijalva/jwt-go
+# github.com/fatih/structs v1.0.0
+github.com/fatih/structs
+# github.com/google/go-querystring v0.0.0-20170111101155-53e6ce116135
+github.com/google/go-querystring/query
+# github.com/libgit2/git2go/v30 v30.3.6
+## explicit
+github.com/libgit2/git2go/v30
+# github.com/pkg/errors v0.8.0
+github.com/pkg/errors
+# github.com/trivago/tgo v1.0.1
+github.com/trivago/tgo/tcontainer
+github.com/trivago/tgo/treflect
+# golang.org/x/crypto v0.0.0-20201203163018-be400aefbc4c
+golang.org/x/crypto/blowfish
+golang.org/x/crypto/chacha20
+golang.org/x/crypto/curve25519
+golang.org/x/crypto/ed25519
+golang.org/x/crypto/ed25519/internal/edwards25519
+golang.org/x/crypto/internal/subtle
+golang.org/x/crypto/poly1305
+golang.org/x/crypto/ssh
+golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
+# golang.org/x/sys v0.0.0-20201204225414-ed752295db88
+golang.org/x/sys/cpu

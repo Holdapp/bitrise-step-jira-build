@@ -34,13 +34,10 @@ deps:
   apt_get:
   - name: git
   - name: libgit2-dev
-  go get -u:
-  - name: github.com/andygrunwald/go-jira
 
 toolkit:
   go:
     package_name: github.com/Holdapp/bitrise-step-jira-build
-
 
 inputs:
   - APP_VERSION:
