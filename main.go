@@ -18,7 +18,7 @@ type StepConfig struct {
 
 	// JIRA
 	JiraHost     string          `env:"JIRA_HOST,required"`
-	JiraProject  string          `env:"JIRA_PROJECT,required"`
+	JiraProject  string          `env:"JIRA_PROJECT_PREFIX,required"`
 	JiraUsername string          `env:"JIRA_USERNAME,required"`
 	JiraToken    stepconf.Secret `env:"JIRA_ACCESS_TOKEN,required"`
 	JiraFieldID  int             `env:"JIRA_CUSTOM_FIELD_ID,required"`
