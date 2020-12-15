@@ -18,7 +18,7 @@ func ScanRelatedCommits(client *bitrise.Client, appSlug string, buildSlug string
 	}
 
 	commitHashes := []string{builds[currentBuildIndex].CommitHash}
-	for _, build := range builds[currentBuildIndex:] {
+	for _, build := range builds[currentBuildIndex+1:] {
 		switch build.Status {
 		case bitrise.BuildAbortedWithSuccess, bitrise.BuildAbortedWithFailure, bitrise.BuildFailed:
 			commitHashes = append(commitHashes, build.CommitHash)

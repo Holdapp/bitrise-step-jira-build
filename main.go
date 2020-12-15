@@ -68,12 +68,16 @@ func main() {
 	}
 
 	// scan repo for related issue keys
-	fmt.Printf("Scanning git repo for JIRA issues (%d anchors)\n", len(hashes))
-	gitWorker := service.Open(stepConfig.SourceDir, stepConfig.Branch, hashes)
+	fmt.Printf("Scanning git repo for JIRA issues (%d anchor[s])\n", len(hashes))
+	gitWorker, err := service.GitOpen(stepConfig.SourceDir, stepConfig.Branch, hashes)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	issueKeys := gitWorker.ScanIssues()
 
 	// update custom field on issues with current build number
-	fmt.Printf("Updating build status for issues: %v", issueKeys)
+	fmt.Printf("Updating build status for issues: %v\n", issueKeys)
 	jiraWorker, err := service.NewJIRAWorker(
 		stepConfig.JiraHost, stepConfig.JiraUsername,
 		stepConfig.JiraTokenString(), stepConfig.JiraProject,

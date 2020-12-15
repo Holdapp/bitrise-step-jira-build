@@ -40,9 +40,17 @@ func (worker *JIRAWorker) UpdateBuildForIssues(issueKeys []string, build config.
 	for _, key := range issueKeys {
 		buildString := build.String()
 		customFieldKey := fmt.Sprintf("customfield_%v", worker.CustomFieldID)
-		update := map[string]interface{}{
+
+		fields := map[string]string{
 			customFieldKey: buildString,
 		}
-		worker.Client.Issue.UpdateIssue(key, update)
+		body := map[string]interface{}{
+			"fields": fields,
+		}
+
+		_, err := worker.Client.Issue.UpdateIssue(key, body)
+		if err != nil {
+			fmt.Printf("Error: %v\n", err)
+		}
 	}
 }

@@ -18,10 +18,10 @@ type GitWorker struct {
 	IssuePattern string
 }
 
-func Open(path string, branch string, commits []string) *GitWorker {
+func GitOpen(path string, branch string, commits []string) (*GitWorker, error) {
 	repo, err := git.OpenRepository(path)
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
 	repo.SetHead(branch)
@@ -40,20 +40,28 @@ func Open(path string, branch string, commits []string) *GitWorker {
 	worker.MergeCommits = commitHashes
 	worker.IssuePattern = DefaultIssuePattern
 
-	return worker
+	return worker, nil
 }
 
-func Load(url string, branch string, remote string) *GitWorker {
-	return nil
+func GitLoad(url string, branch string, remote string) (*GitWorker, error) {
+	log.Fatalln("Not implemented!")
+	return nil, nil
 }
 
-func (self *GitWorker) LoadCommits() []*git.Commit {
+func (worker *GitWorker) LoadCommits() []*git.Commit {
 	var commits = make([]*git.Commit, 0)
-	for _, oid := range self.MergeCommits {
+	for _, oid := range worker.MergeCommits {
+		mergeCommit, err := worker.Repo.LookupCommit(oid)
+		if mergeCommit.ParentCount() < 2 {
+			fmt.Printf("%s is not merge commit!\n", oid.String())
+			commits = append(commits, mergeCommit)
+			continue
+		}
+
 		rangeString := fmt.Sprintf("%s^..%s", oid.String(), oid.String())
-		fmt.Println(rangeString)
-		revwalk, err := self.Repo.Walk()
-		spec, err := self.Repo.Revparse(rangeString)
+		fmt.Printf("Revparse range: %s\n", rangeString)
+		revwalk, err := worker.Repo.Walk()
+		spec, err := worker.Repo.Revparse(rangeString)
 		if err != nil {
 			fmt.Println("Revparse error: ", err)
 			continue
@@ -80,10 +88,10 @@ func (self *GitWorker) LoadCommits() []*git.Commit {
 	return commits
 }
 
-func (self *GitWorker) ScanIssues() []string {
-	commits := self.LoadCommits()
+func (worker *GitWorker) ScanIssues() []string {
+	commits := worker.LoadCommits()
 	issueKeysMap := make(map[string]bool)
-	regex, err := regexp.Compile(self.IssuePattern)
+	regex, err := regexp.Compile(worker.IssuePattern)
 	if err != nil {
 		log.Fatal(err)
 	}
