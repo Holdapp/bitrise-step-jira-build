@@ -3,7 +3,7 @@ package service
 import (
 	"fmt"
 
-	"github.com/fredyshox/bitrise-step-jira-build/bitrise"
+	"github.com/Holdapp/bitrise-step-jira-build/bitrise"
 )
 
 func ScanRelatedCommits(client *bitrise.Client, appSlug string, buildSlug string, workflow string, branch string) ([]string, error) {

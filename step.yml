@@ -13,9 +13,9 @@ summary: |
   Mark jira tickets with build number
 description: |
   Mark jira tickets with build number
-website: https://github.com/fredyshox/bitrise-step-jira-build
-source_code_url: https://github.com/fredyshox/bitrise-step-jira-build
-support_url: https://github.com/fredyshox/bitrise-step-jira-build/issues
+website: https://github.com/Holdapp/bitrise-step-jira-build
+source_code_url: https://github.com/Holdapp/bitrise-step-jira-build
+support_url: https://github.com/Holdapp/bitrise-step-jira-build/issues
 host_os_tags:
   - osx-10.10
   - ubuntu-16.04
@@ -39,7 +39,7 @@ deps:
 
 toolkit:
   go:
-    package_name: github.com/fredyshox/bitrise-step-jira-build
+    package_name: github.com/Holdapp/bitrise-step-jira-build
 
 
 inputs:

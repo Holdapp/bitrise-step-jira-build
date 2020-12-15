@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fredyshox/bitrise-step-jira-build/service"
+	"github.com/Holdapp/bitrise-step-jira-build/service"
 )
 
 func main() {

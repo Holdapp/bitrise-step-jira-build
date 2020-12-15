@@ -1,4 +1,4 @@
-module github.com/fredyshox/bitrise-step-jira-build
+module github.com/Holdapp/bitrise-step-jira-build
 
 go 1.15
 

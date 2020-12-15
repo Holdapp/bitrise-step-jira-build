@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/fredyshox/bitrise-step-jira-build/bitrise"
-	"github.com/fredyshox/bitrise-step-jira-build/config"
-	"github.com/fredyshox/bitrise-step-jira-build/service"
+	"github.com/Holdapp/bitrise-step-jira-build/bitrise"
+	"github.com/Holdapp/bitrise-step-jira-build/config"
+	"github.com/Holdapp/bitrise-step-jira-build/service"
 
 	"github.com/bitrise-io/go-steputils/stepconf"
 )

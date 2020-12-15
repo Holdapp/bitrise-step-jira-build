@@ -3,7 +3,7 @@ package service
 import (
 	"fmt"
 
-	"github.com/fredyshox/bitrise-step-jira-build/config"
+	"github.com/Holdapp/bitrise-step-jira-build/config"
 
 	"github.com/andygrunwald/go-jira"
 )
