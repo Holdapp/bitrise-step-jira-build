@@ -30,7 +30,7 @@ type StepConfig struct {
 	BuildNumber string `env:"BITRISE_BUILD_NUMBER,required"`
 	Workflow    string `env:"BITRISE_TRIGGERED_WORKFLOW_TITLE,required"`
 	SourceDir   string `env:"BITRISE_SOURCE_DIR,required"`
-	Branch      string `env:"BITRISE_SOURCE_DIR,required"`
+	Branch      string `env:"BITRISE_GIT_BRANCH,required"`
 	BuildSlug   string `env:"BITRISE_BUILD_SLUG,required"`
 	AppSlug     string `env:"BITRISE_APP_SLUG,required"`
 }
