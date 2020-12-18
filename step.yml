@@ -25,7 +25,7 @@ type_tags:
 
 is_requires_admin_user: true
 is_always_run: false
-is_skippable: false
+is_skippable: true
 
 deps:
   brew:
@@ -61,6 +61,10 @@ inputs:
       title: "JIRA access token"
       is_required: true
       is_sensitive: true
+  - JIRA_ISSUE_PATTERN: "([A-Z]{1,10}-[0-9]+)"
+    opts:
+      title: "Regex pattern used to identify issue keys from commit messages"
+      is_required: true
   - BITRISE_API_TOKEN:
     opts: 
       title: "Token for bitrise.io api"

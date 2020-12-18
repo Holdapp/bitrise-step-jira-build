@@ -5,6 +5,7 @@ import (
 	"log"
 	"regexp"
 
+	logger "github.com/bitrise-io/go-utils/log"
 	git "github.com/libgit2/git2go/v30"
 )
 
@@ -18,7 +19,7 @@ type GitWorker struct {
 	IssuePattern string
 }
 
-func GitOpen(path string, branch string, commits []string) (*GitWorker, error) {
+func GitOpen(path string, branch string, issuePattern string, commits []string) (*GitWorker, error) {
 	repo, err := git.OpenRepository(path)
 	if err != nil {
 		return nil, err
@@ -33,19 +34,17 @@ func GitOpen(path string, branch string, commits []string) (*GitWorker, error) {
 			commitHashes = append(commitHashes, hash)
 		}
 	}
-
 	worker := new(GitWorker)
 	worker.Repo = repo
 	worker.Branch = branch
 	worker.MergeCommits = commitHashes
-	worker.IssuePattern = DefaultIssuePattern
+	worker.IssuePattern = issuePattern
 
 	return worker, nil
 }
 
 func GitLoad(url string, branch string, remote string) (*GitWorker, error) {
-	log.Fatalln("Not implemented!")
-	return nil, nil
+	return nil, fmt.Errorf("Not implemented!\n")
 }
 
 func (worker *GitWorker) LoadCommits() []*git.Commit {
@@ -53,29 +52,29 @@ func (worker *GitWorker) LoadCommits() []*git.Commit {
 	for _, oid := range worker.MergeCommits {
 		mergeCommit, err := worker.Repo.LookupCommit(oid)
 		if mergeCommit.ParentCount() < 2 {
-			fmt.Printf("%s is not merge commit!\n", oid.String())
+			logger.Warnf("%s is not merge commit!\n", oid.String())
 			commits = append(commits, mergeCommit)
 			continue
 		}
 
 		rangeString := fmt.Sprintf("%s^..%s", oid.String(), oid.String())
-		fmt.Printf("Revparse range: %s\n", rangeString)
+		logger.Infof("Revparse range: %s\n", rangeString)
 		revwalk, err := worker.Repo.Walk()
 		spec, err := worker.Repo.Revparse(rangeString)
 		if err != nil {
-			fmt.Println("Revparse error: ", err)
+			logger.Errorf("Revparse error: ", err)
 			continue
 		}
 
 		fromID := spec.From().Id()
 		toID := spec.To().Id()
 		if err := revwalk.Hide(fromID); err != nil {
-			fmt.Println("revwalk.Hide error", err)
+			logger.Errorf("revwalk.Hide error", err)
 			continue
 		}
 
 		if err := revwalk.Push(toID); err != nil {
-			fmt.Println("revwalk.Push error", err)
+			logger.Errorf("revwalk.Push error", err)
 			continue
 		}
 

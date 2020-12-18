@@ -7,6 +7,7 @@ github.com/bitrise-io/go-steputils/stepconf
 # github.com/bitrise-io/go-utils v0.0.0-20201211082830-859032e9adf0
 ## explicit
 github.com/bitrise-io/go-utils/colorstring
+github.com/bitrise-io/go-utils/log
 github.com/bitrise-io/go-utils/parseutil
 github.com/bitrise-io/go-utils/pointers
 # github.com/dgrijalva/jwt-go v3.2.0+incompatible

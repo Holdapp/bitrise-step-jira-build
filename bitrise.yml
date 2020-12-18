@@ -48,6 +48,7 @@ workflows:
         - JIRA_USERNAME: ${JIRA_USERNAME}
         - JIRA_ACCESS_TOKEN: ${JIRA_ACCESS_TOKEN}
         - JIRA_CUSTOM_FIELD_ID: ${JIRA_CUSTOM_FIELD_ID}
+        - JIRA_ISSUE_PATTERN: "([A-Z]{1,10}-[0-9]+)"
         - BITRISE_API_TOKEN: ${BITRISE_API_TOKEN}
         - APP_VERSION: "2.2.0"
   # ----------------------------------------------------------------

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Holdapp/bitrise-step-jira-build/config"
+	logger "github.com/bitrise-io/go-utils/log"
 
 	"github.com/andygrunwald/go-jira"
 )
@@ -48,7 +49,8 @@ func (worker *JIRAWorker) UpdateBuildForIssues(issueKeys []string, build config.
 
 		_, err := worker.Client.Issue.UpdateIssue(key, body)
 		if err != nil {
-			fmt.Printf("Error: %v\n", err)
+			logger.Warnf("Error for '%s': %v\n", key, err)
+			// TODO Response body
 		}
 	}
 }

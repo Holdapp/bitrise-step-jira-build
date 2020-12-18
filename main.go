@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"os"
 
 	"github.com/Holdapp/bitrise-step-jira-build/bitrise"
 	"github.com/Holdapp/bitrise-step-jira-build/config"
 	"github.com/Holdapp/bitrise-step-jira-build/service"
+	logger "github.com/bitrise-io/go-utils/log"
 
 	"github.com/bitrise-io/go-steputils/stepconf"
 )
@@ -17,10 +16,11 @@ type StepConfig struct {
 	AppVersion string `env:"APP_VERSION,required"`
 
 	// JIRA
-	JiraHost     string          `env:"JIRA_HOST,required"`
-	JiraUsername string          `env:"JIRA_USERNAME,required"`
-	JiraToken    stepconf.Secret `env:"JIRA_ACCESS_TOKEN,required"`
-	JiraFieldID  int             `env:"JIRA_CUSTOM_FIELD_ID,required"`
+	JiraHost         string          `env:"JIRA_HOST,required"`
+	JiraUsername     string          `env:"JIRA_USERNAME,required"`
+	JiraToken        stepconf.Secret `env:"JIRA_ACCESS_TOKEN,required"`
+	JiraFieldID      int             `env:"JIRA_CUSTOM_FIELD_ID,required"`
+	JiraIssuePattern string          `env:"JIRA_ISSUE_PATTERN,required"`
 
 	// Bitrise API
 	BitriseToken stepconf.Secret `env:"BITRISE_API_TOKEN,required"`
@@ -46,7 +46,8 @@ func main() {
 	// Parse config
 	var stepConfig = StepConfig{}
 	if err := stepconf.Parse(&stepConfig); err != nil {
-		log.Fatal(err)
+		logger.Errorf("Configuration error: %s", err)
+		os.Exit(1)
 	}
 
 	build := config.Build{
@@ -55,7 +56,7 @@ func main() {
 	}
 
 	// get commit hashes from bitrise
-	fmt.Println("Scanning Bitrise API for previous failed/aborted builds")
+	logger.Infof("Scanning Bitrise API for previous failed/aborted builds\n")
 	bitriseClient := bitrise.Client{Token: stepConfig.BitriseTokenString()}
 	hashes, err := service.ScanRelatedCommits(
 		&bitriseClient, stepConfig.AppSlug,
@@ -63,26 +64,32 @@ func main() {
 		stepConfig.Branch,
 	)
 	if err != nil {
-		log.Fatal(err)
+		logger.Errorf("Bitrise error: %s\n", err)
+		os.Exit(2)
 	}
 
 	// scan repo for related issue keys
-	fmt.Printf("Scanning git repo for JIRA issues (%d anchor[s])\n", len(hashes))
-	gitWorker, err := service.GitOpen(stepConfig.SourceDir, stepConfig.Branch, hashes)
+	logger.Infof("Scanning git repo for JIRA issues (%d anchor[s])\n", len(hashes))
+	gitWorker, err := service.GitOpen(
+		stepConfig.SourceDir, stepConfig.Branch,
+		stepConfig.JiraIssuePattern, hashes,
+	)
 	if err != nil {
-		log.Fatal(err)
+		logger.Errorf("Git error: %s\n", err)
+		os.Exit(3)
 	}
 
 	issueKeys := gitWorker.ScanIssues()
 
 	// update custom field on issues with current build number
-	fmt.Printf("Updating build status for issues: %v\n", issueKeys)
+	logger.Infof("Updating build status for issues: %v\n", issueKeys)
 	jiraWorker, err := service.NewJIRAWorker(
 		stepConfig.JiraHost, stepConfig.JiraUsername,
 		stepConfig.JiraTokenString(), stepConfig.JiraFieldID,
 	)
 	if err != nil {
-		log.Fatalln(err)
+		logger.Errorf("JIRA error: %s\n", err)
+		os.Exit(4)
 	}
 
 	jiraWorker.UpdateBuildForIssues(issueKeys, build)
