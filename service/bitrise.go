@@ -18,11 +18,16 @@ func ScanRelatedCommits(client *bitrise.Client, appSlug string, buildSlug string
 	}
 
 	commitHashes := []string{builds[currentBuildIndex].CommitHash}
+	shouldContinue := true
 	for _, build := range builds[currentBuildIndex+1:] {
 		switch build.Status {
 		case bitrise.BuildAbortedWithSuccess, bitrise.BuildAbortedWithFailure, bitrise.BuildFailed:
 			commitHashes = append(commitHashes, build.CommitHash)
 		default:
+			shouldContinue = false
+		}
+
+		if !shouldContinue {
 			break
 		}
 	}
