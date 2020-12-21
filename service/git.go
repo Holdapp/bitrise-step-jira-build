@@ -51,6 +51,11 @@ func (worker *GitWorker) LoadCommits() []*git.Commit {
 	var commits = make([]*git.Commit, 0)
 	for _, oid := range worker.MergeCommits {
 		mergeCommit, err := worker.Repo.LookupCommit(oid)
+		if err != nil {
+			logger.Errorf("Cannot find commit with hash: %s\n", oid.String())
+			continue
+		}
+
 		if mergeCommit.ParentCount() < 2 {
 			logger.Warnf("%s is not merge commit!\n", oid.String())
 			commits = append(commits, mergeCommit)
