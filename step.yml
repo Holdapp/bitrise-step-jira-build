@@ -15,6 +15,7 @@ description: |-
   Marks JIRA tickets with current build number
 
   ### How does it work?
+  
   First, the step needs to know tasks associated with the build, so it examines Git history of the merge that it was triggered by. 
   Each merge request can have multiple tasks related to it. So step extracts all the messages of commits involved from the merge commit, 
   and it looks for task keys using a predefined format (for example, [ABCD-1234]). Then using JIRA API, it updates custom fields of these tasks with current build number. 
@@ -63,15 +64,15 @@ inputs:
   - JIRA_HOST:
     opts:
       title: "JIRA host"
-      summary: Your JIRA instance URL (e.g. https://company.atlassian.net)
+      summary: "Your JIRA instance URL (e.g. https://company.atlassian.net)"
       is_required: true
   - JIRA_CUSTOM_FIELD_ID:
     opts:
       title: "JIRA Custom Field ID"
       summary: "Custom field id for the build number (integer)"
       description: |-
-        "You can read how to find it [here](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html). 
-        And if you don’t have a custom field yet, check out this [guide](https://confluence.atlassian.com/adminjiraserver/adding-a-custom-field-938847222.html) that explains how to create it."
+        You can read how to find it [here](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html). 
+        And if you don’t have a custom field yet, check out this [guide](https://confluence.atlassian.com/adminjiraserver/adding-a-custom-field-938847222.html) that explains how to create it.
       is_required: true
   - JIRA_USERNAME:
     opts:
@@ -81,7 +82,7 @@ inputs:
   - JIRA_ACCESS_TOKEN: 
     opts:
       title: "JIRA access token"
-      summary: "user (or bot) password or API token (you can generate it [here](https://confluence.atlassian.com/cloud/api-tokens-938839638.html))."
+      summary: "User (or bot) password or API token (you can generate it [here](https://confluence.atlassian.com/cloud/api-tokens-938839638.html))."
       is_required: true
       is_sensitive: true
   - JIRA_ISSUE_PATTERN: "([A-Z]{1,10}-[0-9]+)"
