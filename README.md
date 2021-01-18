@@ -1,7 +1,15 @@
 # Jira-Build
 
-Mark jira tickets with build number
+Marks JIRA tasks with current build number
 
+### How does it work?
+First, the step needs to know tasks associated with the build, so it examines Git history of the merge that it was triggered by. 
+Each merge request can have multiple tasks related to it. So step extracts all the messages of commits involved from the merge commit, and it looks for task keys using a predefined format (for example, [ABCD-1234]). Then using JIRA API, it updates custom fields of these tasks with current build number. 
+
+Additionally step can keep ticket history from failed/aborted builds. It uses Bitrise API to gather information about the commits from all aborted or failed builds preceding the current one.
+
+### Useful links
+- [About this step](https://www.holdapp.com/blog/bitrise-tests-made-easier-with-jira-build-step)
 
 ## How to use this Step
 

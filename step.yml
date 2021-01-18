@@ -9,10 +9,22 @@
 
 title: |-
   Jira-Build
-summary: |
-  Mark jira tickets with build number
-description: |
-  Mark jira tickets with build number
+summary: |-
+  Marks JIRA tickets with build number
+description: |-
+  Marks JIRA tickets with current build number
+
+  ### How does it work?
+  First, the step needs to know tasks associated with the build, so it examines Git history of the merge that it was triggered by. 
+  Each merge request can have multiple tasks related to it. So step extracts all the messages of commits involved from the merge commit, 
+  and it looks for task keys using a predefined format (for example, [ABCD-1234]). Then using JIRA API, it updates custom fields of these tasks with current build number. 
+
+  Additionally step can keep ticket history from failed/aborted builds. It uses Bitrise API to gather information about the commits 
+  from all aborted or failed builds preceding the current one.
+
+  ### Useful links
+  - [About this step](https://www.holdapp.com/blog/bitrise-tests-made-easier-with-jira-build-step)
+
 website: https://github.com/Holdapp/bitrise-step-jira-build
 source_code_url: https://github.com/Holdapp/bitrise-step-jira-build
 support_url: https://github.com/Holdapp/bitrise-step-jira-build/issues
@@ -42,32 +54,45 @@ toolkit:
 inputs:
   - APP_VERSION:
     opts:
-      title: "App version (for example 1.0.0)"
+      title: "App version"
+      summary: "App version (for example 1.0.0)"
+      description: |-
+        If you develop an iOS project, you can extract the version number from Info.plist of the main target. It’s called `CFBundleShortVersionString`. 
+        Alternatively, you may use a custom step that can do it for you: [bitrise-step-xcode-build-version](https://github.com/nodes-ios/bitrise-step-xcode-build-version)
       is_required: true
   - JIRA_HOST:
     opts:
       title: "JIRA host"
+      summary: Your JIRA instance URL (e.g. https://company.atlassian.net)
       is_required: true
   - JIRA_CUSTOM_FIELD_ID:
     opts:
-      title: "JIRA custom field id for build number (integer)"
+      title: "JIRA Custom Field ID"
+      summary: "Custom field id for the build number (integer)"
+      description: |-
+        "You can read how to find it [here](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html). 
+        And if you don’t have a custom field yet, check out this [guide](https://confluence.atlassian.com/adminjiraserver/adding-a-custom-field-938847222.html) that explains how to create it."
       is_required: true
   - JIRA_USERNAME:
     opts:
       title: "JIRA username"
+      summary: "User (or bot) username"
       is_required: true
   - JIRA_ACCESS_TOKEN: 
     opts:
       title: "JIRA access token"
+      summary: "user (or bot) password or API token (you can generate it [here](https://confluence.atlassian.com/cloud/api-tokens-938839638.html))."
       is_required: true
       is_sensitive: true
   - JIRA_ISSUE_PATTERN: "([A-Z]{1,10}-[0-9]+)"
     opts:
       title: "Regex pattern used to identify issue keys from commit messages"
+      summary: "A regular expression for matching issue keys in commit messages. For example, ([A-Z]{1,10}-[0-9]+)"
       is_required: true
   - BITRISE_API_TOKEN:
     opts: 
-      title: "Token for bitrise.io api"
+      title: "Token for bitrise.io API"
+      summary: "Access token for bitrise.io API, you can find your API token [here](https://discuss.bitrise.io/t/personal-access-tokens-beta/1383)"
       is_required: true
       is_sensitive: true
 
