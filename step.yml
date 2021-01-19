@@ -87,6 +87,14 @@ inputs:
       title: "Regex pattern used to identify issue keys from commit messages"
       summary: "A regular expression for matching issue keys in commit messages. For example, ([A-Z]{1,10}-[0-9]+)"
       is_required: true
+  - JIRA_TRANSITION:
+    opts:
+      title: "Name of transition"
+      summary: "Name of transition to perform tickets that were found. Optional, step won't do any transition, if this is not specified"
+      description: |-
+        Name of transition to perform tickets that were found. Optional, step won't do any transition, if this is not specified. 
+        You can find available transitions for your project at `/rest/api/2/project/{projectKeyOrId}/statuses`.
+      is_required: false
   - BITRISE_API_TOKEN:
     opts: 
       title: "Token for bitrise.io API"

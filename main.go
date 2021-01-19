@@ -20,6 +20,7 @@ type StepConfig struct {
 	JiraToken        stepconf.Secret `env:"JIRA_ACCESS_TOKEN,required"`
 	JiraFieldID      int             `env:"JIRA_CUSTOM_FIELD_ID,required"`
 	JiraIssuePattern string          `env:"JIRA_ISSUE_PATTERN,required"`
+	JiraTransition   string          `env:"JIRA_TRANSITION"`
 
 	// Bitrise API
 	BitriseToken stepconf.Secret `env:"BITRISE_API_TOKEN,required"`
@@ -44,7 +45,7 @@ func main() {
 	// Parse config
 	var stepConfig = StepConfig{}
 	if err := stepconf.Parse(&stepConfig); err != nil {
-		logger.Errorf("Configuration error: %s", err)
+		logger.Errorf("Configuration error: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -79,6 +80,7 @@ func main() {
 	jiraWorker, err := service.NewJIRAWorker(
 		stepConfig.JiraHost, stepConfig.JiraUsername,
 		stepConfig.JiraTokenString(), stepConfig.JiraFieldID,
+		stepConfig.JiraTransition,
 	)
 	if err != nil {
 		logger.Errorf("JIRA error: %s\n", err)
