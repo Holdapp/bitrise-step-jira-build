@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"github.com/Holdapp/bitrise-step-jira-build/bitrise"
-	"github.com/Holdapp/bitrise-step-jira-build/config"
 	"github.com/Holdapp/bitrise-step-jira-build/service"
 	logger "github.com/bitrise-io/go-utils/log"
 
@@ -13,7 +12,7 @@ import (
 
 type StepConfig struct {
 	// Generar info
-	AppVersion string `env:"APP_VERSION,required"`
+	FieldValue string `env:"FIELD_VALUE,required"`
 
 	// JIRA
 	JiraHost         string          `env:"JIRA_HOST,required"`
@@ -26,12 +25,11 @@ type StepConfig struct {
 	BitriseToken stepconf.Secret `env:"BITRISE_API_TOKEN,required"`
 
 	// Fields provided by Bitrise
-	BuildNumber string `env:"BITRISE_BUILD_NUMBER,required"`
-	Workflow    string `env:"BITRISE_TRIGGERED_WORKFLOW_TITLE,required"`
-	SourceDir   string `env:"BITRISE_SOURCE_DIR,required"`
-	Branch      string `env:"BITRISE_GIT_BRANCH,required"`
-	BuildSlug   string `env:"BITRISE_BUILD_SLUG,required"`
-	AppSlug     string `env:"BITRISE_APP_SLUG,required"`
+	Workflow  string `env:"BITRISE_TRIGGERED_WORKFLOW_TITLE,required"`
+	SourceDir string `env:"BITRISE_SOURCE_DIR,required"`
+	Branch    string `env:"BITRISE_GIT_BRANCH,required"`
+	BuildSlug string `env:"BITRISE_BUILD_SLUG,required"`
+	AppSlug   string `env:"BITRISE_APP_SLUG,required"`
 }
 
 func (config *StepConfig) JiraTokenString() string {
@@ -48,11 +46,6 @@ func main() {
 	if err := stepconf.Parse(&stepConfig); err != nil {
 		logger.Errorf("Configuration error: %s", err)
 		os.Exit(1)
-	}
-
-	build := config.Build{
-		Version: stepConfig.AppVersion,
-		Number:  stepConfig.BuildNumber,
 	}
 
 	// get commit hashes from bitrise
@@ -92,7 +85,7 @@ func main() {
 		os.Exit(4)
 	}
 
-	jiraWorker.UpdateBuildForIssues(issueKeys, build)
+	jiraWorker.UpdateFieldValueForIssues(issueKeys, stepConfig.FieldValue)
 
 	// exit with success code
 	os.Exit(0)

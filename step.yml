@@ -53,13 +53,10 @@ toolkit:
     package_name: github.com/Holdapp/bitrise-step-jira-build
 
 inputs:
-  - APP_VERSION:
+  - FIELD_VALUE:
     opts:
-      title: "App version"
-      summary: "App version (for example 1.0.0)"
-      description: |-
-        If you develop an iOS project, you can extract the version number from Info.plist of the main target. It’s called `CFBundleShortVersionString`. 
-        Alternatively, you may use a custom step that can do it for you: [bitrise-step-xcode-build-version](https://github.com/nodes-ios/bitrise-step-xcode-build-version)
+      title: "Field value"
+      summary: "Textual value to fill custom field with"
       is_required: true
   - JIRA_HOST:
     opts:

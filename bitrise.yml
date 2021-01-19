@@ -13,7 +13,6 @@ app:
   - BITRISE_APP_SLUG: ${BITRISE_APP_SLUG}
   - BITRISE_TRIGGERED_WORKFLOW_TITLE: ${BITRISE_TRIGGERED_WORKFLOW_TITLE}
   # bitrise-io
-  - BITRISE_BUILD_NUMBER: "1111"
   - BITRISE_GIT_BRANCH: master
   # If you want to share this step into a StepLib
   - BITRISE_STEP_ID: jira-build
@@ -50,7 +49,7 @@ workflows:
         - JIRA_CUSTOM_FIELD_ID: ${JIRA_CUSTOM_FIELD_ID}
         - JIRA_ISSUE_PATTERN: "([A-Z]{1,10}-[0-9]+)"
         - BITRISE_API_TOKEN: ${BITRISE_API_TOKEN}
-        - APP_VERSION: "2.2.0"
+        - FIELD_VALUE: "2.2.0 (1111)"
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
   audit-this-step:

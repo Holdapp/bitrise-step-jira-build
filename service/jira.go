@@ -3,7 +3,6 @@ package service
 import (
 	"fmt"
 
-	"github.com/Holdapp/bitrise-step-jira-build/config"
 	logger "github.com/bitrise-io/go-utils/log"
 
 	"github.com/andygrunwald/go-jira"
@@ -35,13 +34,12 @@ func NewJIRAWorker(baseURL string, username string, password string, customField
 	return &worker, nil
 }
 
-func (worker *JIRAWorker) UpdateBuildForIssues(issueKeys []string, build config.Build) {
+func (worker *JIRAWorker) UpdateFieldValueForIssues(issueKeys []string, fieldValue string) {
 	for _, key := range issueKeys {
-		buildString := build.String()
 		customFieldKey := fmt.Sprintf("customfield_%v", worker.CustomFieldID)
 
 		fields := map[string]string{
-			customFieldKey: buildString,
+			customFieldKey: fieldValue,
 		}
 		body := map[string]interface{}{
 			"fields": fields,
