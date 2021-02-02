@@ -8,11 +8,11 @@
 # - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
 
 title: |-
-  Jira-Build
+  Update JIRA issues with build number
 summary: |-
-  Marks JIRA tickets with build number
+  Update fields of JIRA issues with build number.
 description: |-
-  Marks JIRA tickets with current build number
+  Update fields of JIRA issues associated with current MR/PR, with the current build number.
 
   ### How does it work?
   
