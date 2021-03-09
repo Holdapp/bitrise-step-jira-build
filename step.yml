@@ -36,21 +36,18 @@ host_os_tags:
 type_tags:
   - notification
 
-is_requires_admin_user: true
 is_always_run: false
 is_skippable: true
 
 deps:
   brew:
-  - name: git
+  - name: pkg-config
   - name: libgit2
+  - name: go
   apt_get:
-  - name: git
-  - name: libgit2-dev
-
-toolkit:
-  go:
-    package_name: github.com/Holdapp/bitrise-step-jira-build
+  - name: pkg-config
+  - name: golang
+    bin_name: go
 
 inputs:
   - APP_VERSION:
