@@ -8,11 +8,11 @@
 # - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
 
 title: |-
-  Jira-Build
+  Update JIRA issues with build number
 summary: |-
-  Marks JIRA tickets with build number
+  Update fields of JIRA issues with build number.
 description: |-
-  Marks JIRA tickets with current build number
+  Update fields of JIRA issues associated with current MR/PR, with the current build number.
 
   ### How does it work?
   
@@ -36,34 +36,31 @@ host_os_tags:
 type_tags:
   - notification
 
-is_requires_admin_user: true
 is_always_run: false
 is_skippable: true
 
 deps:
   brew:
-  - name: git
+  - name: pkg-config
   - name: libgit2
+  - name: go
   apt_get:
-  - name: git
-  - name: libgit2-dev
-
-toolkit:
-  go:
-    package_name: github.com/Holdapp/bitrise-step-jira-build
+  - name: pkg-config
+  - name: golang
+    bin_name: go
 
 inputs:
-  - FIELD_VALUE:
+  - field_value:
     opts:
       title: "Field value"
       summary: "Textual value to fill custom field with"
       is_required: true
-  - JIRA_HOST:
+  - jira_host:
     opts:
       title: "JIRA host"
       summary: "Your JIRA instance URL (e.g. https://company.atlassian.net)"
       is_required: true
-  - JIRA_CUSTOM_FIELD_ID:
+  - jira_custom_field_id:
     opts:
       title: "JIRA Custom Field ID"
       summary: "Custom field id for the build number (integer)"
@@ -71,23 +68,23 @@ inputs:
         You can read how to find it [here](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html). 
         And if you don’t have a custom field yet, check out this [guide](https://confluence.atlassian.com/adminjiraserver/adding-a-custom-field-938847222.html) that explains how to create it.
       is_required: true
-  - JIRA_USERNAME:
+  - jira_username:
     opts:
       title: "JIRA username"
       summary: "User (or bot) username"
       is_required: true
-  - JIRA_ACCESS_TOKEN: 
+  - jira_access_token: 
     opts:
       title: "JIRA access token"
       summary: "User (or bot) password or API token (you can generate it [here](https://confluence.atlassian.com/cloud/api-tokens-938839638.html))."
       is_required: true
       is_sensitive: true
-  - JIRA_ISSUE_PATTERN: "([A-Z]{1,10}-[0-9]+)"
+  - jira_issue_pattern: "([A-Z]{1,10}-[0-9]+)"
     opts:
       title: "Regex pattern used to identify issue keys from commit messages"
       summary: "A regular expression for matching issue keys in commit messages. For example, ([A-Z]{1,10}-[0-9]+)"
       is_required: true
-  - JIRA_TRANSITION:
+  - jira_transition:
     opts:
       title: "Name of transition"
       summary: "Name of transition to perform tickets that were found. Optional, step won't do any transition, if this is not specified"
@@ -95,7 +92,7 @@ inputs:
         Name of transition to perform tickets that were found. Optional, step won't do any transition, if this is not specified. 
         You can find available transitions for your project at `/rest/api/2/project/{projectKeyOrId}/statuses`.
       is_required: false
-  - BITRISE_API_TOKEN:
+  - bitrise_api_token:
     opts: 
       title: "Token for bitrise.io API"
       summary: "Access token for bitrise.io API, you can find your API token [here](https://discuss.bitrise.io/t/personal-access-tokens-beta/1383)"

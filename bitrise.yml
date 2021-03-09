@@ -15,8 +15,8 @@ app:
   # bitrise-io
   - BITRISE_GIT_BRANCH: master
   # If you want to share this step into a StepLib
-  - BITRISE_STEP_ID: jira-build
-  - BITRISE_STEP_VERSION: "0.0.1"
+  - BITRISE_STEP_ID:  jira-issue-update-build
+  - BITRISE_STEP_VERSION: "0.1.3"
   - BITRISE_STEP_GIT_CLONE_URL: https://github.com/Holdapp/bitrise-step-jira-build.git
   - MY_STEPLIB_REPO_FORK_GIT_URL: $MY_STEPLIB_REPO_FORK_GIT_URL
 
@@ -43,13 +43,13 @@ workflows:
         title: Basic test using provided parameters with sample bitrise and jira projects.
         run_if: true
         inputs: 
-        - JIRA_HOST: ${JIRA_HOST}
-        - JIRA_USERNAME: ${JIRA_USERNAME}
-        - JIRA_ACCESS_TOKEN: ${JIRA_ACCESS_TOKEN}
-        - JIRA_CUSTOM_FIELD_ID: ${JIRA_CUSTOM_FIELD_ID}
-        - JIRA_ISSUE_PATTERN: "([A-Z]{1,10}-[0-9]+)"
-        - BITRISE_API_TOKEN: ${BITRISE_API_TOKEN}
-        - FIELD_VALUE: "2.2.0 (1111)"
+        - jira_host: ${JIRA_HOST}
+        - jira_username: ${JIRA_USERNAME}
+        - jira_access_token: ${JIRA_ACCESS_TOKEN}
+        - jira_custom_field_id: ${JIRA_CUSTOM_FIELD_ID}
+        - jira_issue_pattern: "([A-Z]{1,10}-[0-9]+)"
+        - bitrise_api_token: ${BITRISE_API_TOKEN}
+        - field_value: "2.2.0 (1111)"
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
   audit-this-step:

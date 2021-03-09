@@ -12,18 +12,19 @@ import (
 
 type StepConfig struct {
 	// Generar info
-	FieldValue string `env:"FIELD_VALUE,required"`
+
+	FieldValue string `env:"field_value,required"`
 
 	// JIRA
-	JiraHost         string          `env:"JIRA_HOST,required"`
-	JiraUsername     string          `env:"JIRA_USERNAME,required"`
-	JiraToken        stepconf.Secret `env:"JIRA_ACCESS_TOKEN,required"`
-	JiraFieldID      int             `env:"JIRA_CUSTOM_FIELD_ID,required"`
-	JiraIssuePattern string          `env:"JIRA_ISSUE_PATTERN,required"`
-	JiraTransition   string          `env:"JIRA_TRANSITION"`
+	JiraHost         string          `env:"jira_host,required"`
+	JiraUsername     string          `env:"jira_username,required"`
+	JiraToken        stepconf.Secret `env:"jira_access_token,required"`
+	JiraFieldID      int             `env:"jira_custom_field_id,required"`
+	JiraIssuePattern string          `env:"jira_issue_pattern,required"`
+	JiraTransition   string          `env:"jira_transition"`
 
 	// Bitrise API
-	BitriseToken stepconf.Secret `env:"BITRISE_API_TOKEN,required"`
+	BitriseToken stepconf.Secret `env:"bitrise_api_token,required"`
 
 	// Fields provided by Bitrise
 	Workflow  string `env:"BITRISE_TRIGGERED_WORKFLOW_TITLE,required"`
