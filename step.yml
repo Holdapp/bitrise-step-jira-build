@@ -50,7 +50,7 @@ deps:
     bin_name: go
 
 inputs:
-  - APP_VERSION:
+  - app_version:
     opts:
       title: "App version"
       summary: "App version (for example 1.0.0)"
@@ -58,12 +58,12 @@ inputs:
         If you develop an iOS project, you can extract the version number from Info.plist of the main target. It’s called `CFBundleShortVersionString`. 
         Alternatively, you may use a custom step that can do it for you: [bitrise-step-xcode-build-version](https://github.com/nodes-ios/bitrise-step-xcode-build-version)
       is_required: true
-  - JIRA_HOST:
+  - jira_host:
     opts:
       title: "JIRA host"
       summary: "Your JIRA instance URL (e.g. https://company.atlassian.net)"
       is_required: true
-  - JIRA_CUSTOM_FIELD_ID:
+  - jira_custom_field_id:
     opts:
       title: "JIRA Custom Field ID"
       summary: "Custom field id for the build number (integer)"
@@ -71,23 +71,23 @@ inputs:
         You can read how to find it [here](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html). 
         And if you don’t have a custom field yet, check out this [guide](https://confluence.atlassian.com/adminjiraserver/adding-a-custom-field-938847222.html) that explains how to create it.
       is_required: true
-  - JIRA_USERNAME:
+  - jira_username:
     opts:
       title: "JIRA username"
       summary: "User (or bot) username"
       is_required: true
-  - JIRA_ACCESS_TOKEN: 
+  - jira_access_token: 
     opts:
       title: "JIRA access token"
       summary: "User (or bot) password or API token (you can generate it [here](https://confluence.atlassian.com/cloud/api-tokens-938839638.html))."
       is_required: true
       is_sensitive: true
-  - JIRA_ISSUE_PATTERN: "([A-Z]{1,10}-[0-9]+)"
+  - jira_issue_pattern: "([A-Z]{1,10}-[0-9]+)"
     opts:
       title: "Regex pattern used to identify issue keys from commit messages"
       summary: "A regular expression for matching issue keys in commit messages. For example, ([A-Z]{1,10}-[0-9]+)"
       is_required: true
-  - BITRISE_API_TOKEN:
+  - bitrise_api_token:
     opts: 
       title: "Token for bitrise.io API"
       summary: "Access token for bitrise.io API, you can find your API token [here](https://discuss.bitrise.io/t/personal-access-tokens-beta/1383)"
