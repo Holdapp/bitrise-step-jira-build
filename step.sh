@@ -9,6 +9,7 @@ THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [ $(uname -s) == "Linux" ]; then
     DEB_FILES=("${THIS_SCRIPT_DIR}/ubuntu/products/"*.deb)
     dpkg -i "${DEB_FILES[0]}"
+    ldconfig
 fi
 
 # run step in golang
