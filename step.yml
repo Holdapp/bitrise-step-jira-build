@@ -93,5 +93,10 @@ inputs:
       summary: "Access token for bitrise.io API, you can find your API token [here](https://discuss.bitrise.io/t/personal-access-tokens-beta/1383)"
       is_required: true
       is_sensitive: true
+  - overwrite_field: true
+    opts:
+      title: "Should overwrite content of custom field"
+      summary: "If false, existing content will be modified, by replacing any previous builds with matching version"
+      is_required: true
 
 outputs:

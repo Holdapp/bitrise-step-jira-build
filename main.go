@@ -25,6 +25,9 @@ type StepConfig struct {
 	// Bitrise API
 	BitriseToken stepconf.Secret `env:"bitrise_api_token,required"`
 
+	// Options
+	Overwrite bool `env:"overwrite_field,required"`
+
 	// Fields provided by Bitrise
 	BuildNumber string `env:"BITRISE_BUILD_NUMBER,required"`
 	Workflow    string `env:"BITRISE_TRIGGERED_WORKFLOW_TITLE,required"`
@@ -92,7 +95,11 @@ func main() {
 		os.Exit(4)
 	}
 
-	jiraWorker.UpdateBuildForIssues(issueKeys, build)
+	if stepConfig.Overwrite {
+		jiraWorker.UpdateBuildForIssues(issueKeys, build)
+	} else {
+		jiraWorker.UpdateBuildForIssuesMultiField(issueKeys, build)
+	}
 
 	// exit with success code
 	os.Exit(0)
