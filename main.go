@@ -26,7 +26,7 @@ type StepConfig struct {
 	BitriseToken stepconf.Secret `env:"bitrise_api_token,required"`
 
 	// Options
-	Overwrite bool `env:"overwrite_field,required"`
+	Overwrite bool `env:"overwrite_field"`
 
 	// Fields provided by Bitrise
 	BuildNumber string `env:"BITRISE_BUILD_NUMBER,required"`
