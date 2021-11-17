@@ -13,6 +13,7 @@ import (
 )
 
 const MultiFieldSeparator string = ", "
+const NilAsString string = "<nil>"
 
 type JIRAWorker struct {
 	Auth          jira.BasicAuthTransport
@@ -62,14 +63,16 @@ func (worker *JIRAWorker) UpdateBuildForIssuesMultiField(issueKeys []string, bui
 		}
 
 		// parse existing builds
+		currentBuilds := make([]config.Build, 0)
 		customFieldKey := fmt.Sprintf("customfield_%v", worker.CustomFieldID)
 		currentFieldContent := fields[customFieldKey]
-		currentBuildStrings := strings.Split(currentFieldContent, MultiFieldSeparator)
-		currentBuilds := make([]config.Build, 0)
-		for _, s := range currentBuildStrings {
-			build, err := config.ParseBuild(s)
-			if err == nil {
-				currentBuilds = append(currentBuilds, *build)
+		if len(currentFieldContent) != 0 && currentFieldContent != NilAsString {
+			currentBuildStrings := strings.Split(currentFieldContent, MultiFieldSeparator)
+			for _, s := range currentBuildStrings {
+				build, err := config.ParseBuild(s)
+				if err == nil {
+					currentBuilds = append(currentBuilds, *build)
+				}
 			}
 		}
 
@@ -85,7 +88,6 @@ func (worker *JIRAWorker) UpdateBuildForIssuesMultiField(issueKeys []string, bui
 		newFieldContent := strings.Join(newBuildStrings, MultiFieldSeparator)
 
 		log.Printf("Current custom field content: \"%v\" \n", currentFieldContent)
-		log.Printf("Current build list: %v , len: %d\n", currentBuildStrings, len(currentBuildStrings))
 		log.Printf("New build list: %v , len: %d\n", newBuildStrings, len(newBuildStrings))
 		log.Printf("New custom field content: \"%v\" \n", newFieldContent)
 
