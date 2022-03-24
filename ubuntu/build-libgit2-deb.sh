@@ -9,14 +9,15 @@
 set -x
 set -e
 
-VERSION="1.1.0"
-DOWNLOAD_URL="https://github.com/libgit2/libgit2/releases/download/v${VERSION}/libgit2-${VERSION}.zip"
+VERSION="1.3.0"
+
+DOWNLOAD_URL="https://github.com/libgit2/libgit2/archive/refs/tags/v${VERSION}.zip"
 PRODUCTS_DIR="/products"
 PACKAGE_DIRNAME="libgit2-${VERSION}"
 DEB_DIRNAME="libgit2_${VERSION}-1_amd64"
 
 # download sources
-wget "${DOWNLOAD_URL}"
+wget -O "${PACKAGE_DIRNAME}.zip" "${DOWNLOAD_URL}"
 unzip "${PACKAGE_DIRNAME}.zip"
 
 # prepare directories

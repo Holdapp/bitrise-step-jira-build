@@ -42,7 +42,6 @@ is_skippable: true
 deps:
   brew:
   - name: pkg-config
-  - name: libgit2
   - name: go
   apt_get:
   - name: pkg-config
