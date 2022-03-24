@@ -6,9 +6,18 @@ set -ex
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # ubuntu stacks need to install libgit2 package manually, as required version is not in apt repo
+# macos stacks need to install libgit2 from older homebrew formula
 if [ $(uname -s) == "Linux" ]; then
     DEB_FILES=("${THIS_SCRIPT_DIR}/ubuntu/products/"*.deb)
     dpkg -i "${DEB_FILES[0]}"
+elif [ $(uname -s) == "Darwin" ]; then
+    FORMULA_COMMIT_HASH="54b426b84c8824ae457ae7f654670cc6c30bf46f"
+    FORMULA_PATH="${THIS_SCRIPT_DIR}/libgit2.rb"
+    curl "https://raw.githubusercontent.com/Homebrew/homebrew-core/${FORMULA_COMMIT_HASH}/Formula/libgit2.rb" -o "${FORMULA_PATH}"
+    brew install "${FORMULA_PATH}"
+else
+    echo "Unsupported OS: $(uname -s)"
+    exit 1
 fi
 
 # run step in golang
