@@ -14,7 +14,7 @@ elif [ $(uname -s) == "Darwin" ]; then
     FORMULA_COMMIT_HASH="54b426b84c8824ae457ae7f654670cc6c30bf46f"
     FORMULA_PATH="${THIS_SCRIPT_DIR}/libgit2.rb"
     curl "https://raw.githubusercontent.com/Homebrew/homebrew-core/${FORMULA_COMMIT_HASH}/Formula/libgit2.rb" -o "${FORMULA_PATH}"
-    brew install "${FORMULA_PATH}"
+    HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1 HOMEBREW_NO_AUTO_UPDATE=1 brew install "${FORMULA_PATH}"
 else
     echo "Unsupported OS: $(uname -s)"
     exit 1
