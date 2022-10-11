@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Holdapp/bitrise-step-jira-build/bitrise"
+	logger "github.com/bitrise-io/go-utils/log"
 )
 
 func ScanRelatedCommits(client *bitrise.Client, appSlug string, buildSlug string, workflow string, branch string) ([]string, error) {
@@ -13,8 +14,9 @@ func ScanRelatedCommits(client *bitrise.Client, appSlug string, buildSlug string
 	}
 
 	currentBuildIndex := findCurrentBuild(builds, buildSlug)
+	logger.Debugf("Build count: %d, current build index: %d\n", len(builds), currentBuildIndex)
 	if currentBuildIndex < 0 {
-		return nil, fmt.Errorf("bitrise: Current build not found")
+		return nil, fmt.Errorf("bitrise: Current build not found\n")
 	}
 
 	commitHashes := []string{builds[currentBuildIndex].CommitHash}

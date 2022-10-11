@@ -49,7 +49,7 @@ func main() {
 	// Parse config
 	var stepConfig = StepConfig{}
 	if err := stepconf.Parse(&stepConfig); err != nil {
-		logger.Errorf("Configuration error: %s", err)
+		logger.Errorf("Configuration error: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -57,6 +57,8 @@ func main() {
 		Version: stepConfig.AppVersion,
 		Number:  stepConfig.BuildNumber,
 	}
+
+	logger.SetEnableDebugLog(true)
 
 	// get commit hashes from bitrise
 	logger.Infof("Scanning Bitrise API for previous failed/aborted builds\n")
@@ -73,6 +75,7 @@ func main() {
 
 	// scan repo for related issue keys
 	logger.Infof("Scanning git repo for JIRA issues (%d anchor[s])\n", len(hashes))
+	logger.Debugf("Anchors: %v\n", hashes)
 	gitWorker, err := service.GitOpen(
 		stepConfig.SourceDir, stepConfig.Branch,
 		stepConfig.JiraIssuePattern, hashes,

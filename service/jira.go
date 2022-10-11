@@ -72,6 +72,8 @@ func (worker *JIRAWorker) UpdateBuildForIssuesMultiField(issueKeys []string, bui
 				build, err := config.ParseBuild(s)
 				if err == nil {
 					currentBuilds = append(currentBuilds, *build)
+				} else {
+					logger.Errorf("Error while parsing build: %v\n", err)
 				}
 			}
 		}

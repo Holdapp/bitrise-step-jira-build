@@ -32,8 +32,13 @@ func GitOpen(path string, branch string, issuePattern string, commits []string) 
 		hash, err := git.NewOid(commit)
 		if err == nil {
 			commitHashes = append(commitHashes, hash)
+		} else {
+			logger.Errorf("Commit not found: %s, error: %v\n", commit, err)
 		}
 	}
+	logger.Debugf("GitOpen Commit hashes count: %d\n", len(commitHashes))
+	logger.Debugf("GitOpen Commit hashes: %v\n", commitHashes)
+	logger.Debugf("GitOpen Branch: %s\n", branch)
 	worker := new(GitWorker)
 	worker.Repo = repo
 	worker.Branch = branch
@@ -67,19 +72,19 @@ func (worker *GitWorker) LoadCommits() []*git.Commit {
 		revwalk, err := worker.Repo.Walk()
 		spec, err := worker.Repo.Revparse(rangeString)
 		if err != nil {
-			logger.Errorf("Revparse error: ", err)
+			logger.Errorf("Revparse error: %v\n", err)
 			continue
 		}
 
 		fromID := spec.From().Id()
 		toID := spec.To().Id()
 		if err := revwalk.Hide(fromID); err != nil {
-			logger.Errorf("revwalk.Hide error", err)
+			logger.Errorf("revwalk.Hide error %v\n", err)
 			continue
 		}
 
 		if err := revwalk.Push(toID); err != nil {
-			logger.Errorf("revwalk.Push error", err)
+			logger.Errorf("revwalk.Push error %v\n", err)
 			continue
 		}
 
@@ -94,6 +99,7 @@ func (worker *GitWorker) LoadCommits() []*git.Commit {
 
 func (worker *GitWorker) ScanIssues() []string {
 	commits := worker.LoadCommits()
+	logger.Debugf("ScanIssues found %d commits\n", len(commits))
 	issueKeysMap := make(map[string]bool)
 	regex, err := regexp.Compile(worker.IssuePattern)
 	if err != nil {
