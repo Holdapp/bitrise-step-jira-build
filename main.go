@@ -23,7 +23,7 @@ type StepConfig struct {
 	JiraIssuePattern string          `env:"jira_issue_pattern,required"`
 
 	// Bitrise API
-	BitriseToken stepconf.Secret `env:"bitrise_api_token,required"`
+	BitriseToken stepconf.Secret `env:"bitrise_api_token"`
 
 	// Options
 	Overwrite bool `env:"overwrite_field"`
@@ -49,7 +49,7 @@ func main() {
 	// Parse config
 	var stepConfig = StepConfig{}
 	if err := stepconf.Parse(&stepConfig); err != nil {
-		logger.Errorf("Configuration error: %s", err)
+		logger.Errorf("Configuration error: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -58,14 +58,22 @@ func main() {
 		Number:  stepConfig.BuildNumber,
 	}
 
-	// get commit hashes from bitrise
-	logger.Infof("Scanning Bitrise API for previous failed/aborted builds\n")
-	bitriseClient := bitrise.Client{Token: stepConfig.BitriseTokenString()}
-	hashes, err := service.ScanRelatedCommits(
-		&bitriseClient, stepConfig.AppSlug,
-		stepConfig.BuildSlug, stepConfig.Workflow,
-		stepConfig.Branch,
-	)
+	// get commit hashes from bitrise if needed
+	var hashes []string
+	var err error
+	if len(stepConfig.BitriseToken) != 0 {
+		logger.Infof("Scanning Bitrise API for previous failed/aborted builds\n")
+		bitriseClient := bitrise.Client{Token: stepConfig.BitriseTokenString()}
+		hashes, err = service.ScanRelatedCommits(
+			&bitriseClient, stepConfig.AppSlug,
+			stepConfig.BuildSlug, stepConfig.Workflow,
+			stepConfig.Branch,
+		)
+	} else {
+		logger.Infof("Skipping Bitrise API scan, as token was not provided\n")
+		hashes = []string{}
+	}
+
 	if err != nil {
 		logger.Errorf("Bitrise error: %s\n", err)
 		os.Exit(2)
