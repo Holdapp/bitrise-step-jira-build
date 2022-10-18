@@ -17,7 +17,7 @@ app:
   - BITRISE_GIT_BRANCH: master
   # If you want to share this step into a StepLib
   - BITRISE_STEP_ID:  jira-issue-update-build
-  - BITRISE_STEP_VERSION: "0.2.3"
+  - BITRISE_STEP_VERSION: "0.2.4"
   - BITRISE_STEP_GIT_CLONE_URL: https://github.com/Holdapp/bitrise-step-jira-build.git
   - MY_STEPLIB_REPO_FORK_GIT_URL: $MY_STEPLIB_REPO_FORK_GIT_URL
 
