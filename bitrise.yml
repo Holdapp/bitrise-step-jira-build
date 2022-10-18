@@ -24,6 +24,15 @@ app:
 workflows:
   test:
     steps:
+    - script:
+        title: "Delete existing _tmp dir"
+        description: |-
+          Delete _tmp leftover from previous test runs.
+        run_if: true
+        inputs:
+        - content: |
+            #!/bin/bash
+            rm -rf ./_tmp
     - change-workdir:
         title: Switch working dir to test / _tmp dir
         description: |-

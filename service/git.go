@@ -32,8 +32,25 @@ func GitOpen(path string, branch string, issuePattern string, commits []string) 
 		hash, err := git.NewOid(commit)
 		if err == nil {
 			commitHashes = append(commitHashes, hash)
+		} else {
+			logger.Warnf("Commit not found: %s, error: %v\n", commit, err)
 		}
 	}
+
+	if len(commitHashes) == 0 {
+		headRef, err := repo.Head()
+		if err != nil {
+			return nil, err
+		}
+
+		topCommitHash := headRef.Target()
+		if topCommitHash == nil {
+			return nil, fmt.Errorf("HEAD target not available.")
+		}
+
+		commitHashes = append(commitHashes, topCommitHash)
+	}
+
 	worker := new(GitWorker)
 	worker.Repo = repo
 	worker.Branch = branch
@@ -44,7 +61,7 @@ func GitOpen(path string, branch string, issuePattern string, commits []string) 
 }
 
 func GitLoad(url string, branch string, remote string) (*GitWorker, error) {
-	return nil, fmt.Errorf("Not implemented!\n")
+	return nil, fmt.Errorf("Not implemented!")
 }
 
 func (worker *GitWorker) LoadCommits() []*git.Commit {
@@ -67,19 +84,19 @@ func (worker *GitWorker) LoadCommits() []*git.Commit {
 		revwalk, err := worker.Repo.Walk()
 		spec, err := worker.Repo.Revparse(rangeString)
 		if err != nil {
-			logger.Errorf("Revparse error: ", err)
+			logger.Errorf("Revparse error: %v\n", err)
 			continue
 		}
 
 		fromID := spec.From().Id()
 		toID := spec.To().Id()
 		if err := revwalk.Hide(fromID); err != nil {
-			logger.Errorf("revwalk.Hide error", err)
+			logger.Errorf("revwalk.Hide error: %v\n", err)
 			continue
 		}
 
 		if err := revwalk.Push(toID); err != nil {
-			logger.Errorf("revwalk.Push error", err)
+			logger.Errorf("revwalk.Push error: %v\n", err)
 			continue
 		}
 
