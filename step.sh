@@ -10,6 +10,7 @@ THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [ $(uname -s) == "Linux" ]; then
     DEB_FILES=("${THIS_SCRIPT_DIR}/ubuntu/products/"*.deb)
     dpkg -i "${DEB_FILES[0]}"
+    ldconfig
 elif [ $(uname -s) == "Darwin" ]; then
     FORMULA_COMMIT_HASH="8df6c18106e3e1ad425e01b8ce3d5c8d177a79ce"
     FORMULA_PATH="${THIS_SCRIPT_DIR}/libgit2.rb"
