@@ -95,7 +95,7 @@ inputs:
   - overwrite_field: "true"
     opts:
       title: "Should overwrite content of custom field"
-      summary: "If false, existing content will be modified, by replacing any previous builds with matching version"
+      summary: "If true, existing field content will be overridden. If false, a new version will try to replace the old version in the currently set field content"
       is_expand: true
       is_required: true
       value_options:
