@@ -18,3 +18,7 @@ _tmp/
 
 # Dependency directories (remove the comment below to include it)
 #vendor/
+
+# libgit2 build process artifacts
+ubuntu/libgit2-*
+ubuntu/libgit2-*/**
