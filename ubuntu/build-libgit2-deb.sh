@@ -9,7 +9,7 @@
 set -x
 set -e
 
-VERSION="1.3.0"
+VERSION="1.5.0"
 
 DOWNLOAD_URL="https://github.com/libgit2/libgit2/archive/refs/tags/v${VERSION}.zip"
 PRODUCTS_DIR="/products"
