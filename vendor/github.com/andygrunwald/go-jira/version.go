@@ -20,8 +20,8 @@ type Version struct {
 	ID              string `json:"id,omitempty" structs:"id,omitempty"`
 	Name            string `json:"name,omitempty" structs:"name,omitempty"`
 	Description     string `json:"description,omitempty" structs:"description,omitempty"`
-	Archived        bool   `json:"archived,omitempty" structs:"archived,omitempty"`
-	Released        bool   `json:"released,omitempty" structs:"released,omitempty"`
+	Archived        *bool  `json:"archived,omitempty" structs:"archived,omitempty"`
+	Released        *bool  `json:"released,omitempty" structs:"released,omitempty"`
 	ReleaseDate     string `json:"releaseDate,omitempty" structs:"releaseDate,omitempty"`
 	UserReleaseDate string `json:"userReleaseDate,omitempty" structs:"userReleaseDate,omitempty"`
 	ProjectID       int    `json:"projectId,omitempty" structs:"projectId,omitempty"` // Unlike other IDs, this is returned as a number
@@ -89,6 +89,7 @@ func (s *VersionService) Create(version *Version) (*Version, *Response, error) {
 // UpdateWithContext updates a version from a JSON representation.
 //
 // Jira API docs: https://developer.atlassian.com/cloud/jira/platform/rest/#api-api-2-version-id-put
+// Caller must close resp.Body
 func (s *VersionService) UpdateWithContext(ctx context.Context, version *Version) (*Version, *Response, error) {
 	apiEndpoint := fmt.Sprintf("rest/api/2/version/%v", version.ID)
 	req, err := s.client.NewRequestWithContext(ctx, "PUT", apiEndpoint, version)
@@ -108,6 +109,7 @@ func (s *VersionService) UpdateWithContext(ctx context.Context, version *Version
 }
 
 // Update wraps UpdateWithContext using the background context.
+// Caller must close resp.Body
 func (s *VersionService) Update(version *Version) (*Version, *Response, error) {
 	return s.UpdateWithContext(context.Background(), version)
 }
