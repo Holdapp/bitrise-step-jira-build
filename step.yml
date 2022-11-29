@@ -29,9 +29,6 @@ description: |-
 website: https://github.com/Holdapp/bitrise-step-jira-build
 source_code_url: https://github.com/Holdapp/bitrise-step-jira-build
 support_url: https://github.com/Holdapp/bitrise-step-jira-build/issues
-host_os_tags:
-  - osx-10.10
-  - ubuntu-20.04
 
 type_tags:
   - notification
@@ -42,11 +39,8 @@ is_skippable: true
 deps:
   brew:
   - name: pkg-config
-  - name: go
   apt_get:
   - name: pkg-config
-  - name: golang
-    bin_name: go
 
 inputs:
   - app_version:
