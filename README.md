@@ -8,6 +8,9 @@ Each merge request can have multiple tasks related to it. So step extracts all t
 
 Additionally step can keep ticket history from failed/aborted builds. It uses Bitrise API to gather information about the commits from all aborted or failed builds preceding the current one.
 
+The step does not clone git repository by itself, instead it is using the one located at `$BITRISE_SOURCE_DIR`. 
+Make sure repository is cloned before using it ([guide](https://devcenter.bitrise.io/en/steps-and-workflows/generic-workflow-recipes/cloning-a-git-repository.html)).
+
 ### Useful links
 - [About this step](https://www.holdapp.com/blog/bitrise-tests-made-easier-with-jira-build-step)
 
